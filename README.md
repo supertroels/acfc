@@ -23,11 +23,11 @@ $genre_field
 
 // Create field group object and attach fields
 $movie_info_group   = new acfc_field_group('Movie info');
-$movie_field_group
+$movie_info_group
   ->add_field($title_field)
   ->add_field($genre_field);
 
 // Include the field group
-ACFC::include_field_group($movie_field_group);
+ACFC::include_field_group($movie_info_group);
 
 ```
