@@ -4,7 +4,7 @@ Advanced Custom Fields Controller
 
 ## Introduction
 
-ACF is a great tool for building interfaces for the WordPress administration. While the ACF GUI is great for projects with only one developer, the fact that all fields and their groups are stored in the database, can potentially lead to a lot of headaches when working in teams. In spite of new features, like local JSON and field syncing, a safer and more maintainable solution for bigger projects is needed. One where the fields are described in the *codebase* - not in the *database*.
+ACF is a great tool for building interfaces for the WordPress administration. While the ACF GUI is great for projects with only one developer, the fact that all fields and their groups are stored in the database, can potentially lead to a lot of headaches when working in teams. In spite of new features, like local JSON and field syncing, a safer and more maintainable solution for bigger projects is needed. One where the fields and groups are described in the *codebase* - not in the *database*.
 
 Here's a simplified example of what I am trying to build. This is a flow to create a field group and attach some fields to it:
 
