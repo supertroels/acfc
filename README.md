@@ -3,7 +3,11 @@ Advanced Custom Fields Controller
 
 
 ## Introduction
-ACF is a great tool for building interfaces for the WordPress administration. But ACF stores all fields and their groups in the database, which can potentially lead to a lot of headaches when working in teams. In spite of features like field syncing it can be harrowing to commit fields to the database. I want to be able to describe my fields in my codebase and not in the database. Here's a simplified example of a flow to create a field group and some fields:
+
+ACF is a great tool for building interfaces for the WordPress administration. But ACF stores all fields and their groups in the database, which can potentially lead to a lot of headaches when working in team - in spite of features like field syncing.
+
+I want to be able to describe my fields in my codebase and not in the database. Here's a simplified example of a flow to create a field group and some fields:
+
 ```PHP
 
 // Describe title field
