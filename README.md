@@ -10,6 +10,11 @@ Here's a simplified example of what I am trying to build. This is a flow to crea
 
 ```PHP
 
+/*
+Creates a field group called "Movie info" with two fields for title and genre.
+The title field is a text field and the genre field is a select with two options.
+*/
+
 // Describe title field
 $title_field        = new acfc_field('title');
 $title_field
