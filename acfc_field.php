@@ -1,0 +1,227 @@
+<?php
+
+
+/*
+*********************************************
+*
+*	ACFC Field
+*	v0.1
+*	
+*	This class is to be used for creating new
+*	fields when building field groups with the
+*	ACFC extension for ACF
+*
+*********************************************
+*/
+
+class acfc_field {
+	
+
+	/*
+	*****************************
+	*	
+	*	Properties
+	*	
+	*****************************
+	*/
+
+	public $title 	= '';
+	public $key		= '';
+
+
+	/**
+	 * Runs on class contruction and sets
+	 * up the field object for manipulation
+	 * 
+	 * @param $name string - the name of the field
+	 * @param $key string - the unique and never-to-be-changed key of this field
+	 * @return void
+	 **/
+
+	public function __construct($name, $key){
+
+		$field_key = acfc::parse_field_key($key, '01');
+
+		$this->key 						= 'field_'.$field_key;
+		$this->label 					= '';
+		$this->name 					= $name;
+		$this->prefix					= '';
+		$this->type						= '';
+		$this->instructions				= '';
+		$this->required					= 0;
+		$this->conditional_logic		= array();
+		
+		$this->wrapper					= array(
+								        	'width' => null,
+								        	'class' => '',
+								        	'id' 	=> '',
+								      	);
+
+		$this->default_value			= array();
+		$this->disabled					= 0;
+		$this->readonly					= 0;
+
+	}
+
+
+	/**
+	 * Sets a value on the field object
+	 * 
+	 * @param $key string - the key
+	 * @param $value mixed - the value
+	 * @return object - $this for chainability
+	 **/
+
+	public function set($key, $value){
+
+		$this->{$key} = $value;
+
+		return $this;
+	}
+
+
+
+	/**
+	 * Sets a value on the wrapper array of
+	 * the field object
+	 * 
+	 * @param $key string - the key
+	 * @param $value mixed - the value
+	 * @return object - $this for chainability
+	 **/
+
+	public function wrapper($key, $value){
+
+		$this->wrapper[$key] = $value;
+
+		return $this;
+
+	}
+
+
+
+	/**
+	 * Sets the default value of the field
+	 * and formats it according to the field
+	 * type
+	 * 
+	 * @param $default string - the default value
+	 * @return object - $this for chainability
+	 **/
+
+	public function default_value($default){
+		
+		if($this->is_selectable() and is_string($default))
+			$default = array($default, $default);
+
+		$this->set('default_value', $default);
+
+		return $this;
+
+	}
+
+
+
+	/**
+	 * Determines wether the field is a of a
+	 * type that is "selectable"
+	 * 
+	 * @param $default string - the default value
+	 * @return object - $this for chainability
+	 **/
+
+	public function is_selectable(){
+
+		$selectables = apply_filters('acfc/selectables', array('select'));
+		return in_array($this->type, $selectables);
+
+	}
+
+
+	/**
+	 * Sets the default value of the field
+	 * and formats it according to the field
+	 * type
+	 * 
+	 * @param $default string - the default value
+	 * @return object - $this for chainability
+	 **/
+	
+	public function add_choice($key, $value){
+		
+		if(!self::is_selectable()){
+			acfc::error('Tried to add a choice on a non-selectable', $this);
+			return $this;
+		}
+
+		if(!isset($this->choices) or !is_array($this->choices))
+			$this->choices = array();
+
+		$this->choices[$key] = $value;
+
+		return $this;
+
+	}
+
+
+	/**
+	 * Will add a sub field to this field if
+	 * it is a repeater
+	 * 
+	 * @param $field_object object - the field object to add
+	 * @return object - $this for chainability
+	 **/
+	
+	public function add_sub_field($field_object){
+
+		if($this->type !== 'repeater'){
+			acfc::error('Tried to set a sub-field on a non-repeater field', $this);
+			return $this;
+		}
+
+		if(!isset($this->sub_fields) or !is_array($this->sub_fields))
+			$this->sub_fields = array();
+
+		$this->sub_fields[] = $field_object->export();
+
+		return $this;
+
+	}
+
+
+
+	/**
+	 * Applies an acfc_ruleset object to the conditional
+	 * logic for this field
+	 * 
+	 * @param $rulese object - the acfc_ruleset object to add
+	 * @return object - $this for chainability
+	 **/
+
+	public function add_conditional_logic($ruleset){
+
+		$this->conditional_logic[] = $ruleset->export();
+
+		return $this;
+	}
+
+
+
+	/**
+	 * Exports the field. Used primarily when included
+	 * but can also be used in conjunction with acf_json_encode
+	 * to export fields and groups to JSON files
+	 * 
+	 * @return array - the exported field
+	 **/
+
+	public function export(){
+		return (array)$this;
+	}
+
+
+
+}
+
+
+?>
