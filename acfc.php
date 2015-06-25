@@ -28,6 +28,8 @@ class acfc {
 
 	private static $errors 		= array();
 	private static $field_keys 	= array();
+	
+	public static $throw 		= false;
 	public static $field_groups = array();
 
 
@@ -44,6 +46,7 @@ class acfc {
 
 		// Require all the needed files
 		require_once 'acfc_field_group.php';
+		require_once 'acfc_layout.php';
 		require_once 'acfc_field.php';
 		require_once 'acfc_ruleset.php';
 
@@ -85,6 +88,8 @@ class acfc {
 	 **/
 
 	public function error($error, $object = false){
+		if(self::$throw)
+			throw new Exception('ACFC ERROR: '.$error, 1);
 		$this->errors[] = array($error, $object);
 	}
 

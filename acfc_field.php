@@ -132,7 +132,7 @@ class acfc_field {
 
 	public function is_selectable(){
 
-		$selectables = apply_filters('acfc/selectables', array('select'));
+		$selectables = apply_filters('acfc/selectables', array('select', 'checkbox'));
 		return in_array($this->type, $selectables);
 
 	}
@@ -174,7 +174,7 @@ class acfc_field {
 	
 	public function add_sub_field($field_object){
 
-		if($this->type !== 'repeater'){
+		if($this->type !== 'repeater' or !$this->_is_layout){
 			acfc::error('Tried to set a sub-field on a non-repeater field', $this);
 			return $this;
 		}
@@ -183,6 +183,34 @@ class acfc_field {
 			$this->sub_fields = array();
 
 		$this->sub_fields[] = $field_object->export();
+
+		return $this;
+
+	}
+
+
+
+	/**
+	 * Will add a layout to this field if
+	 * it is a flexible content field
+	 * 
+	 * @param $title - the title of the field
+	 * @param $field_object object - the field object to add
+	 * @return object - $this for chainability
+	 **/
+	
+	public function add_layout($field_group){
+
+		if($this->type !== 'flexible_content'){
+			acfc::error('Tried to set a layout on a non-flexible-content field', $this);
+			return $this;
+		}
+
+		if(!isset($this->layouts) or !is_array($this->layouts)){
+			$this->layouts			= array();
+		}
+
+		$this->layouts[] = $field_group->export();
 
 		return $this;
 
@@ -203,6 +231,19 @@ class acfc_field {
 		$this->conditional_logic[] = $ruleset->export();
 
 		return $this;
+	}
+
+
+	/**
+	 * Wrapper for add_conditional_logic
+	 * 
+	 * @param $ruleset object - the acfc_ruleset object to add
+	 * @return object - $this for chainability
+	 **/
+
+	public function add_condition($ruleset){
+
+		return $this->add_conditional_logic($ruleset);
 	}
 
 

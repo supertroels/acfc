@@ -47,6 +47,22 @@ class acfc_field_group {
 
 
 	/**
+	 * Sets a value on the field group
+	 * 
+	 * @param $key string - the key
+	 * @param $value mixed - the value
+	 * @return object - $this for chainability
+	 **/
+
+	public function set($key, $value){
+
+		$this->{$key} = $value;
+
+		return $this;
+	}
+
+
+	/**
 	 * Add a acfc_field object to this field group
 	 *
 	 * @param $field_object object - the acfc_field object to add
@@ -78,6 +94,7 @@ class acfc_field_group {
 		return $this;
 
 	}
+
 
 
 
