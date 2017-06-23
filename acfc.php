@@ -66,9 +66,9 @@ class acfc {
 	 * @return string - the parsed and hashed field key
 	 **/
 
-	public static function parse_field_key($field_key, $salt){
+	public static function get_valid_field_key($name){
 
-		$field_key = preg_replace('~[^\w]{1}~', '0', crypt($field_key, $salt));
+		$field_key = self::get_field_key($name);
 
 		if(in_array($field_key, self::$field_keys))
 			throw new Exception("Field and group keys can not be used more than once", 1);
@@ -81,6 +81,20 @@ class acfc {
 
 
 
+	public function get_field_key($name){
+
+		$key = 'acfc'.hash('crc32', $name);
+		return $key;
+
+	}
+
+
+	public function get_field_prefix(){
+
+		return get_class($this).'_';
+
+	}
+
 	/**
 	 * Will add an error to the error output
 	 *
@@ -90,7 +104,7 @@ class acfc {
 	public function error($error, $object = false){
 		if(self::$throw)
 			throw new Exception('ACFC ERROR: '.$error, 1);
-		$this->errors[] = array($error, $object);
+		self::$errors[] = array($error, $object);
 	}
 
 
@@ -102,7 +116,7 @@ class acfc {
 	 **/
 
 	public function errors(){
-		return $this->errors;
+		return self::$errors;
 	}
 
 

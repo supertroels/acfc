@@ -38,15 +38,15 @@ class acfc_field {
 	 * @return void
 	 **/
 
-	public function __construct($name, $key){
+	public function __construct($name, $type = 'text'){
 
-		$field_key = acfc::parse_field_key($key, '01');
+		$field_key = acfc::get_valid_field_key($name);
 
 		$this->key 						= 'field_'.$field_key;
-		$this->label 					= '';
+		$this->label 					= $name;
 		$this->name 					= $name;
 		$this->prefix					= '';
-		$this->type						= '';
+		$this->type						= $type;
 		$this->instructions				= '';
 		$this->required					= 0;
 		$this->conditional_logic		= array();
@@ -57,9 +57,10 @@ class acfc_field {
 								        	'id' 	=> '',
 								      	);
 
-		$this->default_value			= array();
+		$this->default_value			= null;
 		$this->disabled					= 0;
 		$this->readonly					= 0;
+
 
 	}
 
@@ -174,7 +175,7 @@ class acfc_field {
 	
 	public function add_sub_field($field_object){
 
-		if($this->type !== 'repeater' or !$this->_is_layout){
+		if(!($this->type == 'repeater' or $this->_is_layout)){
 			acfc::error('Tried to set a sub-field on a non-repeater field', $this);
 			return $this;
 		}

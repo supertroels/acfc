@@ -23,9 +23,9 @@ class acfc_field_group {
 	 * @return void
 	 **/
 
-	public function __construct($title, $key){
+	public function __construct($title){
 
-		$field_key = acfc::parse_field_key($key, '00');
+		$field_key = acfc::get_valid_field_key($title);
 
 		$this->key 						= 'group_'.$field_key;
 		$this->title 					= $title;
