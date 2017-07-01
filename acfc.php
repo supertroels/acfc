@@ -32,6 +32,7 @@ class acfc {
 	public static $throw 		= false;
 	public static $field_groups = array();
 
+	private static $ready 		= false;
 
 
 	/**
@@ -44,6 +45,9 @@ class acfc {
 
 	public static function init(){
 
+		if(self::$ready) // Already ran init
+			return null;
+
 		// Require all the needed files
 		require_once 'acfc_field_group.php';
 		require_once 'acfc_layout.php';
@@ -51,6 +55,8 @@ class acfc {
 		require_once 'acfc_ruleset.php';
 
 		add_action('acf/include_fields', 'acfc::include_field_groups', 20, 1);
+
+		self::$ready = true;
 
 	}
 
