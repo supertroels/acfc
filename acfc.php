@@ -127,6 +127,16 @@ class acfc {
 
 
 
+	public static function new_field($name, $type = 'text'){
+		return new acfc_field($name, $type);
+	}
+
+
+	public static function field($name, $type = 'text'){
+		return self::new_field($name, $type);
+	}
+
+
 	/**
 	 * Includes a given acfc_field_group object for
 	 * in the fields that will be registered with ACF

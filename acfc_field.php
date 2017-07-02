@@ -25,6 +25,8 @@ class acfc_field {
 	*****************************
 	*/
 
+	private $has_been_added = false;
+
 	public $title 	= '';
 	public $key		= '';
 
@@ -259,6 +261,32 @@ class acfc_field {
 
 	public function export(){
 		return (array)$this;
+	}
+
+
+	public function parent($parent){
+
+		if(is_object($parent))
+			$this->parent = $parent->key;
+		else
+			$this->parent = $parent;
+
+
+		return $this;
+
+	}
+
+
+	public function add(){
+
+		if($this->has_been_added)
+			return;
+
+		acf_add_local_field(acf_get_valid_field($this->export()));
+
+		$this->has_been_added;
+		return $this;
+
 	}
 
 
