@@ -137,6 +137,16 @@ class acfc {
 	}
 
 
+	public static function new_location(){
+		return new acfc_ruleset();
+	}
+
+
+	public static function location(){
+		return self::new_location();
+	}
+
+
 	/**
 	 * Includes a given acfc_field_group object for
 	 * in the fields that will be registered with ACF
