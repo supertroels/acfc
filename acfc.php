@@ -126,6 +126,15 @@ class acfc {
 	}
 
 
+	public static function new_group($title){
+		return new acfc_field_group($title);
+	}
+
+
+	public static function group($title){
+		return self::new_group($title);
+	}
+
 	public static function new_field($name, $type = 'text'){
 		return new acfc_field($name, $type);
 	}
@@ -143,6 +152,15 @@ class acfc {
 
 	public static function location(){
 		return self::new_location();
+	}
+
+	public static function new_condition(){
+		return new acfc_ruleset();
+	}
+
+
+	public static function condition(){
+		return self::new_condition();
 	}
 
 

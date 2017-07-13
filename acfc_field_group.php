@@ -112,6 +112,21 @@ class acfc_field_group {
 	}
 
 
+
+	public function add(){
+
+		if($this->has_been_added)
+			return;
+
+		acf_add_local_field_group(acf_get_valid_field_group($this->export()));
+
+		$this->has_been_added;
+		return $this;
+
+	}
+
+
+
 }
 
 ?>
