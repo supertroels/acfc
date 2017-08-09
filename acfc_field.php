@@ -67,6 +67,15 @@ class acfc_field {
 	}
 
 
+    public function __call($name, $arguments){
+
+    	if(isset($arguments[0]))
+	    	$this->set($name, $arguments[0]);
+
+	    return $this;
+
+    }
+
 	/**
 	 * Sets a value on the field object
 	 * 
